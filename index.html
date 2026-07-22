@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Amberroot Press</title>
+<meta name="description" content="An independent press in the Arkansas Ozarks, publishing fiction rooted in history, folklore, and myth. Home of The Aelf-King Sagas by S.C. Kincaid.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500&family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  /* ---------------------------------------------------------------
+     Amberroot Press  ROOTLIGHT (light-first surface)
+     Tokens, colophon, and one-file structure. No frameworks.
+     Adding an author or a title means duplicating one HTML block.
+  ----------------------------------------------------------------*/
+  :root {
+    color-scheme: light only;
+
+    /* Core palette (never pure white, never pure black) */
+    --bone:        #EDE5D2; /* Bone Vellum   primary background */
+    --tallow:      #E3D7BD; /* Tallow Deep   alternate bands, cards */
+    --bedrock:     #171310; /* Bedrock Black text, seal linework */
+    --loam:        #241C13; /* Loam Brown    footer, dark accents */
+    --amber:       #C28A2E; /* Rootlight Amber links, hover, seed-dot */
+    --taupe:       #847A6A; /* Ash Taupe     secondary text, borders, rules */
+    --frost:       #C5D2D8; /* Frostline Silver focus rings only */
+
+    /* Book atmosphere bars (catalog cards only) */
+    --book-1:      #1E2D40; /* Predawn Blue  */
+    --book-2:      #3E4A33; /* Verdant Deep  */
+    --book-3:      #14101C; /* Velvet Night  */
+
+    --radius: 4px;
+    --rule: 1px solid var(--taupe);
+    --hairline: 1px solid rgba(132, 122, 106, 0.45);
+    --measure: 34rem;
+    --ease: cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    background: var(--bone);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bone);
+    color: var(--bedrock);
+    font-family: "Libre Caslon Text", Georgia, "Times New Roman", serif;
+    font-size: 1.0625rem;      /* 17px */
+    line-height: 1.68;
+    font-feature-settings: "liga" 1, "onum" 1;
+  }
+
+  @media (min-width: 720px) {
+    body { font-size: 1.125rem; } /* 18px */
+  }
+
+  main { display: block; background: var(--bone); }
+
+  h1, h2, h3 {
+    font-family: "Libre Caslon Display", Georgia, serif;
+    font-weight: 400;
+    line-height: 1.15;
+    margin: 0;
+    color: var(--bedrock);
+  }
+
+  p { margin: 0 0 1.1rem; max-width: var(--measure); }
+  p:last-child { margin-bottom: 0; }
+
+  a {
+    color: var(--amber);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(194, 138, 46, 0.4);
+    transition: color 240ms var(--ease), border-color 240ms var(--ease);
+  }
+  a:hover { color: var(--bedrock); border-bottom-color: var(--bedrock); }
+
+  :focus-visible {
+    outline: 2px solid var(--frost);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    background: var(--bedrock);
+    color: var(--bone);
+    padding: 0.6rem 1rem;
+    border: 0;
+    z-index: 100;
+  }
+  .skip-link:focus { left: 0.75rem; top: 0.75rem; }
+
+  /* ---- Shared layout helpers --------------------------------- */
+  .wrap { width: 100%; max-width: 62rem; margin: 0 auto; padding: 0 1.5rem; }
+
+  section { padding: 4.5rem 0; background: var(--bone); }
+  @media (min-width: 720px) { section { padding: 5.5rem 0; } }
+
+  .band-tallow { background: var(--tallow); }
+
+  .eyebrow {
+    font-family: "Albert Sans", system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    margin: 0 0 1.25rem;
+  }
+
+  /* ---- Wordmark ---------------------------------------------- */
+  .wordmark {
+    font-family: "Libre Caslon Display", Georgia, serif;
+    text-transform: uppercase;
+    letter-spacing: 0.34em;
+    color: var(--bedrock);
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  /* ---- Seal (inline SVG colophon) ---------------------------- */
+  .seal { display: block; color: var(--bedrock); }
+  .seal--sm { width: 34px; height: 34px; }
+  .seal--hero { width: 116px; height: 116px; }
+  .seal--footer { width: 44px; height: 44px; color: var(--bone); }
+  @media (min-width: 720px) { .seal--hero { width: 132px; height: 132px; } }
+
+  /* ---- Header ------------------------------------------------ */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--bone);
+    border-bottom: var(--hairline);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.7rem 1.5rem;
+    max-width: 62rem;
+    margin: 0 auto;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    border: 0;
+  }
+  .brand:hover { color: inherit; }
+  .brand .wordmark { font-size: 0.9rem; letter-spacing: 0.28em; }
+  @media (max-width: 460px) {
+    .brand .wordmark { font-size: 0.72rem; letter-spacing: 0.2em; }
+  }
+
+  .site-nav { margin-left: auto; }
+  .site-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.4rem;
+    margin: 0;
+    padding: 0;
+  }
+  .site-nav a {
+    font-family: "Albert Sans", system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    color: var(--bedrock);
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+  }
+  .site-nav a:hover { color: var(--amber); border-bottom-color: var(--amber); }
+  @media (max-width: 620px) {
+    .header-inner { flex-wrap: wrap; gap: 0.5rem 1rem; }
+    .site-nav { margin-left: 0; width: 100%; }
+    .site-nav ul { gap: 1rem; flex-wrap: wrap; }
+    .site-nav a { font-size: 0.78rem; }
+  }
+
+  /* ---- Hero -------------------------------------------------- */
+  .hero {
+    background: var(--bone);
+    text-align: center;
+    padding: 4.5rem 0 3.25rem;
+  }
+  .hero .wrap { display: flex; flex-direction: column; align-items: center; }
+  .hero .seal { margin-bottom: 1.75rem; }
+  .hero .wordmark {
+    font-size: clamp(1.7rem, 6.5vw, 3.4rem);
+    letter-spacing: 0.24em;
+    margin-bottom: 1.6rem;
+    white-space: normal;      /* allow AMBERROOT / PRESS to stack on narrow screens */
+    max-width: 100%;
+  }
+  @media (max-width: 400px) {
+    .hero .wordmark { letter-spacing: 0.14em; }
+  }
+  .hero-lede {
+    font-size: clamp(1.15rem, 2.4vw, 1.4rem);
+    line-height: 1.5;
+    max-width: 40rem;
+    margin: 0 auto 0.9rem;
+    color: var(--bedrock);
+  }
+  .hero-sub {
+    font-family: "Albert Sans", system-ui, sans-serif;
+    font-weight: 300;
+    font-size: 0.95rem;
+    letter-spacing: 0.03em;
+    color: var(--taupe);
+    max-width: 40rem;
+    margin: 0 auto;
+  }
+
+  /* ---- Waterline divider ------------------------------------- */
+  /* A rule interrupted at center by a filament rising above the
+     line and its mirror descending below, with an amber seed-dot. */
+  .waterline {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    max-width: 62rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    color: var(--taupe);
+  }
+  .waterline .line {
+    flex: 1;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.7;
+  }
+  .waterline-mark { flex: 0 0 auto; display: block; }
+
+  /* ---- Catalog ----------------------------------------------- */
+  .series-head { margin-bottom: 0.35rem; font-size: clamp(1.8rem, 4vw, 2.4rem); }
+  .series-byline {
+    font-family: "Albert Sans", system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 0.82rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    margin: 0 0 1.6rem;
+  }
+  .series-desc { margin-bottom: 2.6rem; }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 2.4rem;
+  }
+  @media (max-width: 760px) { .card-grid { grid-template-columns: 1fr; } }
+
+  .book-card {
+    position: relative;
+    background: var(--tallow);
+    border: var(--hairline);
+    border-radius: var(--radius);
+    padding: 1.6rem 1.5rem 1.75rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 240ms var(--ease);
+  }
+  .book-card:hover { border-color: var(--taupe); }
+  .book-card .bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .book-card.book-1 .bar { background: var(--book-1); }
+  .book-card.book-2 .bar { background: var(--book-2); }
+  .book-card.book-3 .bar { background: var(--book-3); }
+
+  .book-numeral {
+    font-family: "Albert Sans", system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    margin: 0 0 0.75rem;
+  }
+  .book-title {
+    font-family: "Libre Caslon Text", Georgia, serif;
+    font-style: italic;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    color: var(--bedrock);
+    margin: 0 0 0.55rem;
+  }
+  .book-date {
+    font-family: "Albert Sans", system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 0.82rem;
+    letter-spacing: 0.05em;
+    color: var(--taupe);
+    margin: 0;
+  }
+  .book-line {
+    margin: 0.85rem 0 0;
+    font-size: 0.98rem;
+    line-height: 1.6;
+  }
+  .catalog-close { margin-top: 0.5rem; color: var(--bedrock); }
+
+  /* ---- About ------------------------------------------------- */
+  .about-facts {
+    font-family: "Albert Sans", system-ui, sans-serif;
+    font-weight: 300;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    color: var(--taupe);
+    margin-top: 1.6rem;
+  }
+
+  /* ---- Pledge ------------------------------------------------ */
+  .pledge-intro { margin-bottom: 2rem; font-style: italic; color: var(--bedrock); }
+  ol.pledge-list {
+    margin: 0;
+    padding: 0 0 0 1.4rem;
+    max-width: var(--measure);
+    counter-reset: pledge;
+  }
+  ol.pledge-list li {
+    margin: 0 0 1.35rem;
+    padding-left: 0.4rem;
+    line-height: 1.62;
+  }
+  ol.pledge-list li::marker {
+    font-family: "Albert Sans", system-ui, sans-serif;
+    font-weight: 500;
+    color: var(--amber);
+  }
+
+  /* ---- Submissions and Contact ------------------------------- */
+  .panel {
+    background: var(--bone);
+    border: var(--rule);
+    border-radius: var(--radius);
+    padding: 2rem 1.9rem;
+    max-width: 44rem;
+  }
+  .panel p + p { margin-top: 1rem; }
+  .contact-line {
+    font-family: "Albert Sans", system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    color: var(--bedrock);
+    margin-top: 1.4rem;
+  }
+
+  /* ---- Footer ------------------------------------------------ */
+  .site-footer {
+    background: var(--loam);
+    color: var(--bone);
+    padding: 3.5rem 0 3rem;
+  }
+  .footer-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+  .site-footer .wordmark {
+    color: var(--bone);
+    font-size: 1rem;
+    letter-spacing: 0.3em;
+  }
+  .footer-contact {
+    font-family: "Albert Sans", system-ui, sans-serif;
+    font-weight: 300;
+    font-size: 0.9rem;
+    letter-spacing: 0.03em;
+    color: var(--tallow);
+    margin: 0;
+  }
+  .site-footer a { color: var(--tallow); border-bottom-color: rgba(227, 215, 189, 0.4); }
+  .site-footer a:hover { color: var(--amber); border-bottom-color: var(--amber); }
+  .footer-copy {
+    font-family: "Albert Sans", system-ui, sans-serif;
+    font-weight: 300;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    color: var(--taupe);
+    margin: 0.5rem 0 0;
+  }
+  .footer-creed {
+    font-family: "Libre Caslon Text", Georgia, serif;
+    font-style: italic;
+    font-size: 1.02rem;
+    color: var(--amber);
+    margin: 0.75rem 0 0;
+  }
+
+  /* ---- Motion law: light may move; surfaces may not. --------- */
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============ Colophon defined once, reused by reference ======
+     Linework is drawn in currentColor (Bedrock on light surfaces,
+     Bone on the footer). The amber taproot, glow, and seed-point
+     are fixed and never recolor. -->
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <defs>
+    <linearGradient id="ap-taproot" x1="0" y1="120" x2="0" y2="216" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#847A6A"></stop>
+      <stop offset="1" stop-color="#C28A2E"></stop>
+    </linearGradient>
+    <radialGradient id="ap-glow" cx="120" cy="216" r="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#C28A2E" stop-opacity="0.55"></stop>
+      <stop offset="0.5" stop-color="#C28A2E" stop-opacity="0.16"></stop>
+      <stop offset="1" stop-color="#C28A2E" stop-opacity="0"></stop>
+    </radialGradient>
+    <g id="ap-tree" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path style="vector-effect:non-scaling-stroke;stroke-width:1.5" d="M0,0L0,-30M0,-30L-7.6,-51.6M-7.6,-51.6L-19.6,-63.8M-7.6,-51.6L-5.7,-68.5M-7.6,-51.6L-12.5,-66.1M0,-30L8.8,-51.2M8.8,-51.2L7.5,-68.3M8.8,-51.2L21.5,-62.6M0,-30L1.1,-50.6M1.1,-50.6L-3.7,-64.5M1.1,-50.6L6.1,-64.4"></path>
+      <path style="vector-effect:non-scaling-stroke;stroke-width:1.05" d="M-19.6,-63.8L-30.8,-68.4M-19.6,-63.8L-24.7,-74.8M-19.6,-63.8L-27.7,-71.1M-5.7,-68.5L-10.1,-80.7M-5.7,-68.5L0.3,-80M-12.5,-66.1L-19.2,-75.2M-12.5,-66.1L-12.4,-77.4M7.5,-68.3L1.5,-80M7.5,-68.3L11.2,-80.9M7.5,-68.3L6.2,-80M21.5,-62.6L27.7,-74M21.5,-62.6L33.6,-67.1M21.5,-62.6L30.5,-70M-3.7,-64.5L-11.3,-72.4M-3.7,-64.5L-3.2,-75.4M-3.7,-64.5L-7.4,-73.7M6.1,-64.4L5.1,-75.3M6.1,-64.4L13.3,-72.6"></path>
+      <path style="vector-effect:non-scaling-stroke;stroke-width:0.7" d="M-30.8,-68.4L-40.1,-68.8M-40.1,-68.8L-46.8,-66.8M-46.8,-66.8L-51,-63.7M-46.8,-66.8L-52,-67.5M-40.1,-68.8L-46.3,-72M-46.3,-72L-51.7,-72.1M-46.3,-72L-49.8,-76.1M-30.8,-68.4L-38,-74.3M-38,-74.3L-44.7,-76.7M-44.7,-76.7L-49.8,-76.4M-44.7,-76.7L-48.4,-80.2M-38,-74.3L-41.8,-80.3M-41.8,-80.3L-46.3,-83.4M-41.8,-80.3L-42.8,-85.7M-30.8,-68.4L-38.7,-71.2M-38.7,-71.2L-44.6,-70.7M-44.6,-70.7L-48.7,-69M-44.6,-70.7L-48.9,-71.9M-38.7,-71.2L-43.4,-74.8M-43.4,-74.8L-47.6,-76.5M-43.4,-74.8L-45.7,-78.7M-24.7,-74.8L-31.5,-80.7M-31.5,-80.7L-37.7,-82.8M-37.7,-82.8L-42.6,-82.7M-37.7,-82.8L-41.6,-85.8M-31.5,-80.7L-34,-86.8M-34,-86.8L-37,-90.3M-34,-86.8L-33.9,-91.4M-24.7,-74.8L-24.9,-83.8M-24.9,-83.8L-27.8,-89.8M-27.8,-89.8L-31.7,-93M-27.8,-89.8L-27.8,-94.8M-24.9,-83.8L-22.1,-89.8M-22.1,-89.8L-21.7,-94.6M-22.1,-89.8L-18.4,-92.8M-24.9,-83.8L-24.9,-89.8M-24.9,-89.8L-26.8,-93.8M-24.9,-89.8L-23.6,-94M-27.7,-71.1L-35.1,-74.5M-35.1,-74.5L-41.1,-74.8M-41.1,-74.8L-45.5,-73.4M-41.1,-74.8L-45.1,-77M-35.1,-74.5L-38.9,-79.2M-38.9,-79.2L-42.6,-81.3M-38.9,-79.2L-40.1,-83.3M-35.1,-74.5L-39.8,-77.1M-39.8,-77.1L-43.7,-78M-39.8,-77.1L-42.3,-80.1M-27.7,-71.1L-31.4,-78.3M-31.4,-78.3L-35.9,-82.5M-35.9,-82.5L-39.9,-84.4M-35.9,-82.5L-37.7,-86.5M-31.4,-78.3L-32.1,-84.4M-32.1,-84.4L-34.1,-88.4M-32.1,-84.4L-31.3,-88.7M-10.1,-80.7L-16.5,-88M-16.5,-88L-22.7,-91.5M-22.7,-91.5L-27.9,-92.4M-22.7,-91.5L-26,-95.7M-16.5,-88L-18.6,-94.8M-18.6,-94.8L-21.7,-99M-18.6,-94.8L-18.3,-100M-16.5,-88L-20.3,-93.2M-20.3,-93.2L-24.2,-95.6M-20.3,-93.2L-21.4,-97.7M-10.1,-80.7L-9.4,-90.4M-9.4,-90.4L-11.8,-96.9M-11.8,-96.9L-14.9,-100.7M-11.8,-96.9L-11.9,-101.8M-9.4,-90.4L-6.1,-96.5M-6.1,-96.5L-5.7,-101.6M-6.1,-96.5L-2.5,-100M-9.4,-90.4L-9,-96.6M-9,-96.6L-10.3,-101M-9,-96.6L-7.1,-100.7M0.3,-80L1.3,-89.3M1.3,-89.3L-0.4,-96.3M-0.4,-96.3L-3.1,-100.7M-0.4,-96.3L0.1,-101.5M1.3,-89.3L4.9,-95.5M4.9,-95.5L5.6,-100.7M4.9,-95.5L8.6,-99.2M1.3,-89.3L2.4,-95.7M2.4,-95.7L1.3,-100.2M2.4,-95.7L5.2,-99.5M0.3,-80L8.1,-85.3M8.1,-85.3L12.5,-91.1M12.5,-91.1L13.7,-96.2M12.5,-91.1L16.8,-94M8.1,-85.3L15.3,-86.5M15.3,-86.5L20,-89M15.3,-86.5L20.5,-85.3M-19.2,-75.2L-26.2,-79M-26.2,-79L-32.2,-79.8M-32.2,-79.8L-36.6,-78.2M-32.2,-79.8L-36.2,-82.2M-26.2,-79L-29.8,-83.9M-29.8,-83.9L-33.4,-86.1M-29.8,-83.9L-30.6,-88.1M-26.2,-79L-30.8,-82M-30.8,-82L-34.8,-82.8M-30.8,-82L-33,-85.5M-19.2,-75.2L-20.8,-83M-20.8,-83L-24,-88.1M-24,-88.1L-27.7,-91M-24,-88.1L-25,-92.7M-20.8,-83L-20.1,-89M-20.1,-89L-21.2,-93.4M-20.1,-89L-17.7,-92.8M-20.8,-83L-22,-88.3M-22,-88.3L-24.4,-91.3M-22,-88.3L-21.1,-92.1M-19.2,-75.2L-23.5,-80.9M-23.5,-80.9L-28,-84.1M-28,-84.1L-31.8,-85M-28,-84.1L-30.4,-87.2M-23.5,-80.9L-25,-86.2M-25,-86.2L-27.7,-89.6M-25,-86.2L-24.6,-90.5M-23.5,-80.9L-26.2,-85.1M-26.2,-85.1L-29.2,-87M-26.2,-85.1L-26.9,-88.6M-12.4,-77.4L-15.4,-85.3M-15.4,-85.3L-19.7,-89.8M-19.7,-89.8L-24,-91.8M-19.7,-89.8L-21.4,-94.2M-15.4,-85.3L-14.9,-91.5M-14.9,-91.5L-16.2,-96M-14.9,-91.5L-12.7,-95.6M-15.4,-85.3L-17.2,-90.6M-17.2,-90.6L-20.1,-93.8M-17.2,-90.6L-17.5,-94.9M-12.4,-77.4L-8.9,-85.1M-8.9,-85.1L-8.9,-91.5M-8.9,-91.5L-10.9,-95.9M-8.9,-91.5L-7.3,-96.1M-8.9,-85.1L-4.4,-89.6M-4.4,-89.6L-2.5,-93.9M-4.4,-89.6L-0.1,-91.5M-8.9,-85.1L-7,-90.5M-7,-90.5L-7,-94.7M-7,-90.5L-4.1,-93.6M-12.4,-77.4L-11.9,-85M-11.9,-85L-13.8,-90M-13.8,-90L-16.5,-92.8M-13.8,-90L-14.2,-93.9M-11.9,-85L-9.9,-89.9M-9.9,-89.9L-10,-93.8M-9.9,-89.9L-6.9,-92.5M1.5,-80L-6.4,-85.9M-6.4,-85.9L-13.6,-87.3M-13.6,-87.3L-18.9,-86.1M-13.6,-87.3L-17.9,-90.5M-6.4,-85.9L-10.6,-91.9M-10.6,-91.9L-15.3,-94.6M-10.6,-91.9L-11.8,-97.3M1.5,-80L1.1,-89.9M1.1,-89.9L-1.8,-96.9M-1.8,-96.9L-5.4,-100.8M-1.8,-96.9L-2.1,-102.2M1.1,-89.9L3.3,-97.1M3.3,-97.1L2.8,-102.5M3.3,-97.1L7,-101.1M1.1,-89.9L0.8,-96.7M0.8,-96.7L-1.6,-101.1M0.8,-96.7L2.3,-101.5M1.5,-80L-2.8,-87.8M-2.8,-87.8L-8.4,-91.9M-8.4,-91.9L-13.2,-93M-8.4,-91.9L-10.7,-96.3M-2.8,-87.8L-3.5,-94.7M-3.5,-94.7L-5.8,-99.3M-3.5,-94.7L-1.8,-99.6M11.2,-80.9L9.5,-91M9.5,-91L5.9,-97.3M5.9,-97.3L1.8,-100.7M5.9,-97.3L4.7,-102.5M9.5,-91L11.1,-98.1M11.1,-98.1L10,-103.7M11.1,-98.1L14.2,-102.8M11.2,-80.9L18,-88.6M18,-88.6L20.4,-95.8M20.4,-95.8L19.6,-101.7M20.4,-95.8L24.1,-100.3M18,-88.6L24.9,-91.8M24.9,-91.8L28.8,-96M24.9,-91.8L30.7,-92.3M11.2,-80.9L13.7,-89.8M13.7,-89.8L12.4,-96.4M12.4,-96.4L9.4,-100.3M12.4,-96.4L13.6,-101.2M13.7,-89.8L17.8,-95.1M17.8,-95.1L19.7,-99.9M17.8,-95.1L22.4,-97.5M6.2,-80L2.1,-87.7M2.1,-87.7L-2.8,-91.5M-2.8,-91.5L-7.1,-93.2M-2.8,-91.5L-5.1,-95.5M2.1,-87.7L1.5,-93.9M1.5,-93.9L-0.6,-97.9M1.5,-93.9L2.7,-98.3M2.1,-87.7L-0.6,-92.6M-0.6,-92.6L-4.1,-95.1M-0.6,-92.6L-1,-96.8M6.2,-80L8.8,-88.4M8.8,-88.4L8.2,-94.9M8.2,-94.9L5.8,-98.9M8.2,-94.9L9.4,-99.4M8.8,-88.4L13.5,-92.9M13.5,-92.9L15.5,-97.2M13.5,-92.9L17.9,-94.6M27.7,-74L28.7,-83.7M28.7,-83.7L26.8,-90.8M26.8,-90.8L22.8,-94.9M26.8,-90.8L27.6,-96.5M28.7,-83.7L32,-90.3M32,-90.3L32.4,-95.6M32,-90.3L36.1,-93.6M27.7,-74L34.6,-80.9M34.6,-80.9L36.8,-87.9M36.8,-87.9L36.1,-93.5M36.8,-87.9L40.8,-91.9M34.6,-80.9L41.4,-83.7M41.4,-83.7L45.4,-87.5M41.4,-83.7L46.9,-84M34.6,-80.9L38.9,-86M38.9,-86L40.8,-90.6M38.9,-86L43.4,-88M27.7,-74L31.1,-82.1M31.1,-82.1L30.9,-88.3M30.9,-88.3L29,-92.3M30.9,-88.3L32.6,-92.4M31.1,-82.1L35.8,-86.2M35.8,-86.2L37.8,-90.1M35.8,-86.2L39.9,-87.7M33.6,-67.1L41.2,-73.6M41.2,-73.6L44.7,-80.1M44.7,-80.1L45.5,-85.7M44.7,-80.1L49.1,-83.6M41.2,-73.6L48.2,-76.1M48.2,-76.1L52.7,-79.5M48.2,-76.1L53.8,-75.9M33.6,-67.1L43.6,-67.5M43.6,-67.5L50.1,-71M50.1,-71L53.7,-75.2M50.1,-71L55.6,-71.1M43.6,-67.5L50.6,-65.2M50.6,-65.2L55.9,-65.6M50.6,-65.2L54.5,-61.6M30.5,-70L34.3,-77.9M34.3,-77.9L35.2,-84.4M35.2,-84.4L34.1,-89.4M35.2,-84.4L37.8,-88.7M34.3,-77.9L39.3,-82.2M39.3,-82.2L41.5,-86.8M39.3,-82.2L44.1,-83.9M30.5,-70L38.9,-72.4M38.9,-72.4L44.5,-76.2M44.5,-76.2L46.9,-80.6M44.5,-76.2L49.4,-77.2M38.9,-72.4L45.6,-71.3M45.6,-71.3L50.6,-72.4M45.6,-71.3L50.2,-69M38.9,-72.4L44.9,-73.4M44.9,-73.4L49,-75.6M44.9,-73.4L49.5,-72.6M30.5,-70L36.4,-75.1M36.4,-75.1L38.6,-80.7M38.6,-80.7L39,-85.2M38.6,-80.7L41.8,-83.9M36.4,-75.1L42.1,-76.9M42.1,-76.9L45.6,-79.9M42.1,-76.9L46.6,-76.1M-11.3,-72.4L-18.4,-75.7M-18.4,-75.7L-24.2,-75.9M-24.2,-75.9L-28.4,-74.5M-24.2,-75.9L-28.2,-77.7M-18.4,-75.7L-22.1,-80.1M-22.1,-80.1L-25.7,-82M-22.1,-80.1L-23.2,-84M-11.3,-72.4L-13.8,-79.8M-13.8,-79.8L-17.4,-84.4M-17.4,-84.4L-21.1,-86.5M-17.4,-84.4L-18.4,-88.5M-13.8,-79.8L-13.2,-85.6M-13.2,-85.6L-14.7,-89.8M-13.2,-85.6L-11.1,-89.5M-3.2,-75.4L-5,-83.2M-5,-83.2L-8.8,-87.8M-8.8,-87.8L-12.4,-89.9M-8.8,-87.8L-10.1,-91.8M-5,-83.2L-3.8,-89M-3.8,-89L-5,-93.4M-3.8,-89L-1.3,-92.8M-5,-83.2L-6.4,-88.4M-6.4,-88.4L-8.8,-91.2M-6.4,-88.4L-6.1,-92.1M-3.2,-75.4L0,-82.7M0,-82.7L0.4,-88.8M0.4,-88.8L-1.2,-93.1M0.4,-88.8L2.8,-92.8M0,-82.7L4.5,-86.8M4.5,-86.8L6.7,-90.8M4.5,-86.8L8.8,-88.2M-7.4,-73.7L-12.3,-78.6M-12.3,-78.6L-16.9,-80.4M-16.9,-80.4L-20.5,-80.1M-16.9,-80.4L-19.6,-82.7M-12.3,-78.6L-14.3,-83.2M-14.3,-83.2L-17,-85.6M-14.3,-83.2L-14.5,-86.8M-7.4,-73.7L-7.3,-80.7M-7.3,-80.7L-9.1,-85.7M-9.1,-85.7L-11.7,-88.8M-9.1,-85.7L-9.1,-89.7M-7.3,-80.7L-5.2,-85.5M-5.2,-85.5L-5,-89.4M-5.2,-85.5L-2.3,-88.1M-7.3,-80.7L-7,-85.4M-7,-85.4L-8.1,-88.7M-7,-85.4L-5.5,-88.5M5.1,-75.3L2,-82.3M2,-82.3L-1.9,-86.4M-1.9,-86.4L-5.5,-88.1M-1.9,-86.4L-3,-90.2M2,-82.3L2.1,-87.9M2.1,-87.9L0.7,-91.6M2.1,-87.9L3.5,-91.6M2,-82.3L0.3,-87.1M0.3,-87.1L-2,-89.7M0.3,-87.1L0.2,-90.6M5.1,-75.3L7.6,-82.6M7.6,-82.6L7.1,-88M7.1,-88L5.4,-91.5M7.1,-88L8.5,-91.6M7.6,-82.6L11.4,-86.5M11.4,-86.5L12.8,-90.5M11.4,-86.5L15.3,-88.2M13.3,-72.6L16.6,-80M16.6,-80L16.2,-85.6M16.2,-85.6L14.4,-89.3M16.2,-85.6L17.7,-89.4M16.6,-80L20.5,-84M20.5,-84L22.3,-87.6M20.5,-84L24.2,-85.6M13.3,-72.6L20.5,-76.3M20.5,-76.3L24.4,-80.9M24.4,-80.9L25.6,-85.2M24.4,-80.9L28.4,-82.8M20.5,-76.3L26.4,-77.4M26.4,-77.4L29.9,-79.8M26.4,-77.4L30.5,-76.2M20.5,-76.3L25,-79.3M25,-79.3L27.3,-82.6M25,-79.3L29,-79.9M13.3,-72.6L18.5,-77.7M18.5,-77.7L20.6,-82.7M20.6,-82.7L20.8,-86.9M20.6,-82.7L23.3,-85.9M18.5,-77.7L23.2,-80.4M23.2,-80.4L25.8,-83.2M23.2,-80.4L27,-81M18.5,-77.7L21.5,-81.5M21.5,-81.5L22.8,-84.9M21.5,-81.5L24.7,-83.3"></path>
+    </g>
+    <symbol id="ap-seal" viewBox="0 0 240 240">
+      <!-- rings -->
+      <circle cx="120" cy="120" r="112" fill="none" stroke="currentColor" stroke-width="1.6"></circle>
+      <circle cx="120" cy="120" r="105" fill="none" stroke="currentColor" stroke-width="1"></circle>
+      <!-- ground line (the waterline) -->
+      <line x1="17" y1="120" x2="223" y2="120" stroke="currentColor" stroke-width="1.4"></line>
+      <!-- amber glow at the deepest root -->
+      <circle cx="120" cy="216" r="44" fill="url(#ap-glow)"></circle>
+      <!-- ground mound: a low, wide hill on the ground line -->
+      <path d="M40 120 Q120 100 200 120 Z" fill="currentColor"></path>
+      <!-- canopy: recursive bare branches into a rounded crown -->
+      <use href="#ap-tree" transform="translate(118.4,110) scale(0.82)"></use>
+      <!-- roots, the same growth mirrored beneath the ground line, spread wider -->
+      <use href="#ap-tree" transform="translate(118.1,120) scale(0.95,-0.82)"></use>
+      <!-- central taproot, the longest root, graded taupe into amber -->
+      <path d="M120,120 C 120,158 121,192 120,216" fill="none" stroke="url(#ap-taproot)" stroke-width="1.6" stroke-linecap="round" style="vector-effect:non-scaling-stroke"></path>
+      <!-- the seed-point -->
+      <circle cx="120" cy="216" r="2.6" fill="#C28A2E"></circle>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============ Header ======================================== -->
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="#top" aria-label="Amberroot Press, home">
+      <svg class="seal seal--sm" viewBox="0 0 240 240" role="img" aria-label="The Amberroot Press seal: a tree above the ground line, its roots mirrored below, one amber light at the deepest root.">
+        <use href="#ap-seal"></use>
+      </svg>
+      <span class="wordmark">Amberroot Press</span>
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="#catalog">Catalog</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#pledge">Pledge</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <span id="top"></span>
+
+  <!-- ============ Hero ======================================== -->
+  <section class="hero" aria-labelledby="hero-wordmark">
+    <div class="wrap">
+      <svg class="seal seal--hero" viewBox="0 0 240 240" role="img" aria-label="The Amberroot Press seal: a bare tree stands on a dark mound above the ground line, its root system mirrored beneath, and one ember of amber glows at the deepest root.">
+        <use href="#ap-seal"></use>
+      </svg>
+      <p class="wordmark" id="hero-wordmark">Amberroot Press</p>
+      <p class="hero-lede">An independent press in the Arkansas Ozarks, publishing fiction rooted in history, folklore, and myth.</p>
+      <p class="hero-sub">Home of The Aelf-King Sagas by S.C. Kincaid.</p>
+    </div>
+  </section>
+
+  <div class="waterline" role="separator" aria-hidden="true">
+    <span class="line"></span>
+    <svg class="waterline-mark" width="22" height="30" viewBox="0 0 22 30" aria-hidden="true">
+      <line x1="11" y1="0" x2="11" y2="12" stroke="#847A6A" stroke-width="1.2"></line>
+      <line x1="11" y1="18" x2="11" y2="30" stroke="#847A6A" stroke-width="1.2"></line>
+      <circle cx="11" cy="15" r="2.4" fill="#C28A2E"></circle>
+    </svg>
+    <span class="line"></span>
+  </div>
+
+  <!-- ============ Catalog ===================================== -->
+  <section id="catalog" aria-labelledby="catalog-head">
+    <div class="wrap">
+      <p class="eyebrow" id="catalog-head">The Catalog</p>
+      <h2 class="series-head">The Aelf-King Sagas</h2>
+      <p class="series-byline">by S.C. Kincaid</p>
+      <p class="series-desc">The Aelf-King Sagas is a historical fantasy trilogy set in a Europe half remembered and half invented, where the oldest powers of winter still move behind the stories people tell. It follows the making of a legend across centuries, back through the folklore and myth that shaped it and forward through the man the world would come to call Santa Claus. History is the ground here, and the fantasy grows out of it.</p>
+
+      <div class="card-grid">
+        <!-- Catalog card: the unit of growth. Duplicate one block to
+             add a title; give it its own atmosphere-bar color. -->
+        <article class="book-card book-1">
+          <span class="bar" aria-hidden="true"></span>
+          <p class="book-numeral">Book I</p>
+          <h3 class="book-title">Blood of Winter</h3>
+          <p class="book-date">December 1, 2026</p>
+          <p class="book-line">The origin of the man the world would name Santa Claus, told as history and folklore long before it hardened into legend.</p>
+        </article>
+
+        <article class="book-card book-2">
+          <span class="bar" aria-hidden="true"></span>
+          <p class="book-numeral">Book II</p>
+          <h3 class="book-title">Forthcoming</h3>
+          <p class="book-date">Date to be announced</p>
+        </article>
+
+        <article class="book-card book-3">
+          <span class="bar" aria-hidden="true"></span>
+          <p class="book-numeral">Book III</p>
+          <h3 class="book-title">Forthcoming</h3>
+          <p class="book-date">Date to be announced</p>
+        </article>
+      </div>
+
+      <p class="catalog-close">The Aelf-King Archives, the series companion library, gathers the deeper record of this world. For editions, excerpts, and the newsletter, visit <a href="https://sckincaid.com">sckincaid.com</a>.</p>
+    </div>
+  </section>
+
+  <div class="waterline" role="separator" aria-hidden="true">
+    <span class="line"></span>
+    <svg class="waterline-mark" width="22" height="30" viewBox="0 0 22 30" aria-hidden="true">
+      <line x1="11" y1="0" x2="11" y2="12" stroke="#847A6A" stroke-width="1.2"></line>
+      <line x1="11" y1="18" x2="11" y2="30" stroke="#847A6A" stroke-width="1.2"></line>
+      <circle cx="11" cy="15" r="2.4" fill="#C28A2E"></circle>
+    </svg>
+    <span class="line"></span>
+  </div>
+
+  <!-- ============ About ======================================= -->
+  <section id="about" class="band-tallow" aria-labelledby="about-head">
+    <div class="wrap">
+      <p class="eyebrow" id="about-head">About the Press</p>
+      <p>The name holds two ideas. Amber is old light carried whole across centuries, sap turned to stone with a single moment still sealed inside it. Roots are the half of a tree's life that happens unseen, the work below the ground that decides whether anything above it can stand. Amberroot Press is the meeting of the two, old light and buried work, brought up into books.</p>
+      <p>Founded in 2026, Amberroot Press is independent. It publishes in print, ebook, and audio, with distribution through the trade and direct to readers.</p>
+    </div>
+  </section>
+
+  <div class="waterline" role="separator" aria-hidden="true">
+    <span class="line"></span>
+    <svg class="waterline-mark" width="22" height="30" viewBox="0 0 22 30" aria-hidden="true">
+      <line x1="11" y1="0" x2="11" y2="12" stroke="#847A6A" stroke-width="1.2"></line>
+      <line x1="11" y1="18" x2="11" y2="30" stroke="#847A6A" stroke-width="1.2"></line>
+      <circle cx="11" cy="15" r="2.4" fill="#C28A2E"></circle>
+    </svg>
+    <span class="line"></span>
+  </div>
+
+  <!-- ============ The Amberroot Pledge ======================== -->
+  <section id="pledge" aria-labelledby="pledge-head">
+    <div class="wrap">
+      <p class="eyebrow" id="pledge-head">The Amberroot Pledge</p>
+      <p class="pledge-intro">How this press conducts itself, in writing, permanently.</p>
+      <ol class="pledge-list">
+        <li>We never charge an author we publish, and we never publish an author we charge. The services line and any future imprint acquisitions are permanently separate.</li>
+        <li>Client books carry the client's imprint, never ours. We install; you own.</li>
+        <li>No royalty share, no revenue share, no percentage of anything. Fixed prices, published on this page.</li>
+        <li>We show our own numbers. The case study for every service is our own catalog, documented before we sold anything.</li>
+        <li>We say no. If a manuscript or a timeline is not ready for a launch, the audit says so in writing, and we do not sell the next step.</li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="waterline" role="separator" aria-hidden="true">
+    <span class="line"></span>
+    <svg class="waterline-mark" width="22" height="30" viewBox="0 0 22 30" aria-hidden="true">
+      <line x1="11" y1="0" x2="11" y2="12" stroke="#847A6A" stroke-width="1.2"></line>
+      <line x1="11" y1="18" x2="11" y2="30" stroke="#847A6A" stroke-width="1.2"></line>
+      <circle cx="11" cy="15" r="2.4" fill="#C28A2E"></circle>
+    </svg>
+    <span class="line"></span>
+  </div>
+
+  <!-- ============ Submissions and Contact ===================== -->
+  <section id="contact" class="band-tallow" aria-labelledby="contact-head">
+    <div class="wrap">
+      <p class="eyebrow" id="contact-head">Submissions and Contact</p>
+      <div class="panel">
+        <p>Amberroot Press is a small house with a long list. We are not open to submissions at this time. When that changes, guidelines will appear on this page.</p>
+        <p class="contact-line">For rights, press, and trade inquiries, write to <a href="mailto:Stephen.c.kincaid@gmail.com">Stephen.c.kincaid@gmail.com</a>.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ Footer ======================================== -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <svg class="seal seal--footer" viewBox="0 0 240 240" role="img" aria-label="The Amberroot Press seal, drawn in bone on a dark ground, with one amber light at the deepest root.">
+        <use href="#ap-seal"></use>
+      </svg>
+      <p class="wordmark">Amberroot Press</p>
+      <p class="footer-contact"><a href="mailto:Stephen.c.kincaid@gmail.com">Stephen.c.kincaid@gmail.com</a></p>
+      <p class="footer-copy">Copyright 2026 Amberroot Press. The Arkansas Ozarks.</p>
+      <p class="footer-creed">Old light, carried underground.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
