@@ -1,0 +1,196 @@
+/* Amberroot Press — a traditional publisher's page. */
+
+:root {
+  --paper: #faf6ee;
+  --ink: #201a14;
+  --ink-soft: #4a4238;
+  --amber: #9a5b12;
+  --rule: #ddd2ba;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Masthead */
+
+.masthead {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.brand {
+  margin: 0;
+  font-variant: small-caps;
+  letter-spacing: 0.14em;
+  font-size: 1.05rem;
+}
+
+.masthead nav {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.masthead nav a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+}
+
+.masthead nav a:hover { color: var(--amber); }
+
+/* Main column */
+
+main {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+section {
+  padding: 3rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+section:last-of-type { border-bottom: none; }
+
+h1 {
+  font-size: 2.75rem;
+  font-weight: normal;
+  letter-spacing: 0.02em;
+  margin: 0 0 0.5rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.35rem;
+  font-weight: normal;
+  font-variant: small-caps;
+  letter-spacing: 0.14em;
+  margin: 0 0 1.25rem;
+  color: var(--ink);
+}
+
+h3 {
+  font-size: 1.4rem;
+  font-weight: normal;
+  margin: 0 0 0.35rem;
+}
+
+p { margin: 0 0 1rem; }
+p:last-child { margin-bottom: 0; }
+
+a { color: var(--amber); }
+a:hover { text-decoration-thickness: 2px; }
+
+cite { font-style: italic; }
+
+/* Hero */
+
+.hero {
+  text-align: center;
+  padding: 4.5rem 0 3.5rem;
+}
+
+.tagline {
+  color: var(--ink-soft);
+  font-style: italic;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Books */
+
+.series-hook {
+  font-size: 1.08rem;
+  margin-bottom: 2.5rem;
+}
+
+.book {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  margin-bottom: 2.75rem;
+}
+
+.book:last-child { margin-bottom: 0; }
+
+.book img {
+  width: 11rem;
+  height: auto;
+  flex-shrink: 0;
+  box-shadow: 0 2px 14px rgba(32, 26, 20, 0.22);
+}
+
+.book-text { padding-top: 0.25rem; }
+
+.volume {
+  font-style: italic;
+  color: var(--ink-soft);
+  margin-bottom: 0.5rem;
+}
+
+.pubdate {
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.25rem;
+}
+
+.formats {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  margin-bottom: 0;
+}
+
+/* Footer */
+
+footer {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+footer p {
+  margin: 0;
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+}
+
+/* Small screens */
+
+@media (max-width: 560px) {
+  h1 { font-size: 2.1rem; }
+
+  .masthead {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .book { gap: 1.25rem; }
+  .book img { width: 7.5rem; }
+
+  section { padding: 2.25rem 0; }
+  .hero { padding: 3rem 0 2.5rem; }
+}
