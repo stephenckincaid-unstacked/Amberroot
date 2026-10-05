@@ -1,0 +1,53 @@
+name: Twelve Nights
+
+# The static rebuild (plan Part B2). A daily cron through the season rebuilds the
+# archive; because the build omits any night that has not unlocked, the daily run
+# is what publishes each door, and locked material is never in the output to peek
+# at. On push it runs the verification harness as CI.
+#
+# NOTE ON DEPLOY: this repo's GitHub Pages currently serves the press site from
+# the branch root (amberrootpress.com). A repo has ONE Pages source, so this
+# workflow does NOT deploy here. Decide where the archive lives (sckincaid.com,
+# a subdomain, or its own repo/Pages site), then fill in the deploy step marked
+# below. Until then it builds, tests, and uploads the output as an artifact.
+
+on:
+  push:
+    paths: ["twelve-nights/**", ".github/workflows/twelve-nights.yml"]
+  workflow_dispatch:
+  schedule:
+    # 23:00 UTC is evening in the Central zone the build gates on. Through the
+    # season only: all of November and December, and January 1 through 7.
+    - cron: "0 23 1-30 11 *"
+    - cron: "0 23 1-31 12 *"
+    - cron: "0 23 1-7 1 *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: twelve-nights
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify (time-travel, rollover, no-leak)
+        run: node test/verify.mjs
+      - name: Audit content completeness
+        # Reports unwritten observances. Does not fail the build during the
+        # slice; flip to `node build.mjs --audit` once all fourteen are written
+        # to make an incomplete set a hard failure.
+        run: node build.mjs --audit || true
+      - name: Build the archive for today
+        run: node build.mjs --out=dist
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: twelve-nights-dist
+          path: twelve-nights/dist
+      # - name: Deploy
+      #   # Fill this in once the host is chosen. For a dedicated Pages site:
+      #   #   uses: actions/deploy-pages@v4   (with actions/upload-pages-artifact)
+      #   # For an external host, rsync/API-push twelve-nights/dist here.
